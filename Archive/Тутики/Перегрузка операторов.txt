@@ -1,0 +1,386 @@
+#include <iostream>
+using namespace std;
+
+class point
+{
+private:
+
+	int x;
+	int y;
+
+public:
+
+	point(int x, int y)          // Конструктор
+	{
+		this->x = x;
+		this->y = y;
+		cout << "Конструктор " << this << " x: " << x << " y: " << y << endl;
+	}
+
+
+	~point()                     // Деструктор - В данном случае можно и не писать, но для наглядности он есть
+	{
+		cout << "Деструктор  " << this << " x: " << x << " y: " << y << endl;
+	}
+
+	point(const point& other)    // Конструктор копирования - используется при перемещении в функцию по значению и при копировании
+	{
+		this->x = other.x;
+		this->y = other.y;
+		cout << "Конст копир " << this << " x: " << this->x << " y: " << this->y << endl;
+	}
+
+	void operator = (const point& other)  // Перегрузка для оператора присваивания
+	{
+		cout << "Оператор присваивания в " << this << endl
+			 << "\tвместо x " << this->x << " будет " << other.x << "; вместо y " << this->y << " будет " << other.y << endl;
+
+		this->x = other.x;
+		this->y = other.y;
+	}
+
+
+	point operator + (const point& other)  // Перегрузка для оператора сложения
+	{
+		cout << "Оператор сложения в " << this << endl
+			 << "\tСкладывают x: " << this->x << " + " << other.x << endl
+			 << "\tСкладывают y: " << this->y << " + " << other.y << endl;
+
+		point temp(this->x + other.x, this->y + other.y);
+		return temp;
+	}
+
+	point operator - (const point& other)  // Перегрузка для оператора вычитания
+	{
+		cout << "Оператор вычитания в " << this << endl
+			<< "\tВычитают x: " << this->x << " - " << other.x << endl
+			<< "\tВычитают y: " << this->y << " - " << other.y << endl;
+
+		point temp(this->x - other.x, this->y - other.y);
+		return temp;
+	}
+
+	point & operator ++()  // Перегрузка для оператора префиксного инкремента
+	{
+		cout << "Оператор инкремента в " << this << endl
+			<< "\tИнкремент x: " << this->x << " ++ " << endl
+			<< "\tИнкремент y: " << this->y << " ++ " << endl;
+
+		this->x++;
+		this->y++;
+		
+		return *this;
+	}
+
+	point& operator ++(int value)  // Перегрузка для оператора постфиксного инкремента (int value) - нужно для того чтобы компилятор не путал с префиксной
+	{
+		cout << "Оператор инкремента в " << this << endl
+			<< "\tИнкремент x: " << this->x << " ++ " << endl
+			<< "\tИнкремент y: " << this->y << " ++ " << endl;
+		point* temp(this);         // Сначала запоминается текущее состояние
+		
+		this->x++;
+		this->y++;
+
+		return *temp;              // Возвращается состояние до инкремента
+	}
+
+
+	point& operator --()  // Перегрузка для оператора префиксного декремента
+	{
+		cout << "Оператор деремента в " << this << endl
+			<< "\tДекремент x: " << this->x << " -- " << endl
+			<< "\tДекремент y: " << this->y << " -- " << endl;
+		
+		this->x;
+		this->y;
+
+		return *this;
+	}
+
+	point& operator --(int value)  // Перегрузка для оператора постфиксного декремента (int value) - нужно для того чтобы компилятор не путал с префиксной
+	{
+		cout << "Оператор декремента в " << this << endl
+			<< "\tдекремент x: " << this->x << " -- " << endl
+			<< "\tдекремент y: " << this->y << " -- " << endl;
+		point* temp(this);         // Сначала запоминается текущее состояние
+
+		this->x--;
+		this->y--;
+
+		return *temp;              // Возвращается состояние до инкремента
+	}
+
+	point operator * (const int number)  // Перегрузка для оператора умножения на число
+	{
+		cout << "Оператор умн на число в " << this << endl
+			<< "\tУмножают x: " << this->x << " * " << number << endl
+			<< "\tУмножают y: " << this->y << " * " << number << endl;
+
+		point temp(this->x * number, this->y * number);
+		return temp;
+	}
+
+	point operator / (const int number)  // Перегрузка для оператора деления на число нацело
+	{
+		cout << "Оператор дел на число в " << this << endl
+			<< "\tДелят x: " << this->x << " / " << number << endl
+			<< "\tДелят y: " << this->y << " / " << number << endl;
+
+		point temp(this->x / number, this->y / number);
+		return temp;
+	}
+
+	point operator % (const int number)  // Перегрузка для оператора остатка от деления на число
+	{
+		cout << "Оператор ост дел на число в " << this << endl
+			<< "\tДелят x: " << this->x << " % " << number << endl
+			<< "\tДелят y: " << this->y << " % " << number << endl;
+
+		point temp(this->x % number, this->y % number);
+		return temp;
+	}
+
+
+	point operator * (const point& other)  // Перегрузка для оператора скалярного умножения
+	{
+		cout << "Оператор скал умн в " << this << endl
+			<< "\tУмножают x: " << this->x << " * " << other.x << endl
+			<< "\tУмножают y: " << this->y << " * " << other.y << endl;
+
+		point temp(this->x * other.x, this->y * other.y);
+		return temp;
+	}
+
+	point operator / (const point& other)  // Перегрузка для оператора скалярного деления нацело
+	{
+		cout << "Оператор скал дел в " << this << endl
+			<< "\tДелят x: " << this->x << " / " << other.x << endl
+			<< "\tДелят y: " << this->y << " / " << other.y << endl;
+
+		point temp(this->x / other.x, this->y / other.y);
+		return temp;
+	}
+
+	point operator % (const point& other)  // Перегрузка для оператора скалярного остатка от деления 
+	{
+		cout << "Оператор скал ост от дел в " << this << endl
+			<< "\tДелят x: " << this->x << " % " << other.x << endl
+			<< "\tДелят y: " << this->y << " % " << other.y << endl;
+
+		point temp(this->x % other.x, this->y % other.y);
+		return temp;
+	}
+
+	bool operator == (const point& other)  // Перегрузка для оператора равенства 
+	{
+		cout << "Оператор равенства в " << this << endl
+			<< "\tСравниваю x: " << this->x << " == " << other.x << endl
+			<< "\tСравниваю y: " << this->y << " == " << other.y << endl;
+
+		if (this->x == other.x && this->y == other.y)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	bool operator != (const point& other)  // Перегрузка для оператора неравенства 
+	{
+		cout << "Оператор неравенства в " << this << endl
+			<< "\tСравниваю x: " << this->x << " != " << other.x << endl
+			<< "\tСравниваю y: " << this->y << " != " << other.y << endl;
+
+		if (this->x != other.x || this->y != other.y)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	void set(int x, int y)
+	{
+		this->x = x;
+		this->y = y;
+	}
+
+	void setX(int x)
+	{
+		this->x = x;
+	}
+
+	void setY(int y)
+	{
+		this->y = y;
+	}
+
+	int getX()
+	{
+		return this->x;
+	}
+
+	int getY()
+	{
+		return this->y;
+	}
+
+	void print()
+	{
+		cout << "Print " << this << " x " << this->x << " y " << this->y << endl;
+	}
+
+	double length()
+	{
+		return sqrt((this->x) * (this->x) + (this->y) * (this->y));
+	}
+};
+
+
+
+int main()
+{
+	/*
+	Присваиание =
+	Равенство   == и неравенство !=
+	Сумма       +  и разность     -
+	Инкремент  ++a и декремент   --a
+	Умножение   *  и деление      / и % (на число)
+	Умножение   *  и деление      / и % (скалярные)
+
+	print
+	length
+	*/
+	
+	setlocale(LC_ALL, "RUS");
+
+	point a(10, 5);
+	point b(2, 5);
+	point c(0, 0);
+
+	cout << endl;
+	c = a + b;
+	a.print();
+	b.print();
+	c.print();
+
+	cout << endl;
+	c = a - b;
+	a.print();
+	b.print();
+	c.print();
+
+	cout << endl;
+	c = a * 4;
+	a.print();
+	b.print();
+	c.print();
+
+	cout << endl;
+	c = a / 2;
+	a.print();
+	b.print();
+	c.print();
+
+	cout << endl;
+	c = a % 2;
+	a.print();
+	b.print();
+	c.print();
+
+	cout << endl;
+	c = a * b;
+	a.print();
+	b.print();
+	c.print();
+
+	cout << endl;
+	c = a / b;
+	a.print();
+	b.print();
+	c.print();
+
+	cout << endl;
+	c = a % b;
+	a.print();
+	b.print();
+	c.print();
+
+	cout << endl;
+	a.print();
+	b.print();
+	if (a == b)
+	{
+		cout << "a == b" << endl;
+	}
+	else
+	{
+		cout << "a != b" << endl;
+	}
+
+	cout << endl;
+	a.print();
+	b.print();
+	if (a != b)
+	{
+		cout << "a != b" << endl;
+	}
+	else
+	{
+		cout << "a == b" << endl;
+	}
+
+
+
+
+	a.set(12, 12);
+	b.set(12, 12);;
+
+	cout << endl;
+	a.print();
+	b.print();
+	if (a == b)
+	{
+		cout << "a == b" << endl;
+	}
+	else
+	{
+		cout << "a != b" << endl;
+	}
+
+	cout << endl;
+	a.print();
+	b.print();
+	if (a != b)
+	{
+		cout << "a != b" << endl;
+	}
+	else
+	{
+		cout << "a == b" << endl;
+	}
+	
+	
+	cout << endl;
+	a.print();
+	++a;
+	a.print();
+	--a;
+	a.print();
+	a++;
+	a.print();
+	a--;
+	a.print();
+	a--++;
+	a.print();
+	--++a;
+	a.print();
+
+}
+
+

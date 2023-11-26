@@ -1,0 +1,44 @@
+#include <iostream>
+using namespace std;
+
+
+void function(int* pa, int* pb)   // Функция принимает объект по адресу, на что указывает то что в переменной функции указаны адресы *
+{
+	cout << "В функцию поступил адрес pa: " << pa << " содержащий в себе значение a: " << *pa << endl;
+	cout << "В функцию поступил адрес pb: " << pb << " содержащий в себе значение b: " << *pb << endl;
+
+	int temp = 0; 
+	int* ptemp = &temp;    // ptemp это тоже самое что &temp
+	cout << "Создаю временное хранилище temp, содержащее в себе значение: " << temp << " Находящееся по адресу " << ptemp << endl;
+	cout << "Создаю временное хранилище temp, содержащее в себе значение: " << *ptemp << " Находящееся по адресу " << &temp << endl;
+
+
+	temp = *pa;
+	*pa = *pb;
+	*pb = temp;
+}
+ 
+
+void main()
+{ 
+	setlocale(LC_ALL, "RUS");
+
+	int a = 10;
+	int b = -152;
+
+	int* pa = &a;
+	int* pb = &b;
+
+	cout << "Дано значение a " << a << "\tПо адресу pa: " << &a << endl;
+	cout << "Дано значение b " << b << "\tПо адресу pb: " << &b << endl;
+	cout << endl;
+
+	function(&a, &b);
+	cout << endl;
+
+	cout << "Дано значение a " << a << "\tПо адресу pa: " << &a << endl;
+	cout << "Дано значение b " << b << "\tПо адресу pb: " << &b << endl;
+	cout << endl;
+
+}
+

@@ -1,0 +1,152 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class A
+{
+public:
+	//A()
+	//{
+	//	msg = "Пустое сообщение";
+	//	cout << "Вызван конструктор класса A" << endl;
+	//}
+
+	A(string msg)
+	{
+		this->msg = msg;
+		cout << "Вызван конструктор класса A" << endl;
+	}
+
+	void PrintMsg()
+	{
+		cout << msg << endl;
+	}
+
+private:
+	string msg;
+};
+
+
+
+
+class B : public A
+{
+public:
+	B(string a):A(a)
+	{
+		cout << "Вызван конструктор класса B" << endl;
+	}
+};
+
+
+
+
+int main()
+{
+	setlocale(LC_ALL, "RUS");
+
+	B b("Fde");
+	b.PrintMsg();
+
+
+	return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+class human 
+{
+public:
+	human()
+	{
+		cout << "Констр human:" << this << " по умолчанию" << endl;
+	}
+
+	human(string name, int height)
+	{
+		count++;
+		this->id = count;
+		this->name = name;
+		this->height = height;
+		cout << "Констр human:" << this << " id:" << id << " name:" << name << " height:" << height << endl;
+	}
+
+	~human()
+	{
+		cout << "Дестр. human:" << this << " id:" << id << " name:" << name << " height:" << height << endl;
+	}
+private:
+	static int count;
+	int id;
+	string name;
+	int height;
+};
+int human::count = 0;
+
+class student : public human 
+{
+public:
+	student()
+	{
+		cout << "Констр student:" << this << " по умолчанию" << endl;
+	}
+
+	student(string group):human()
+	{
+		this->group = group;
+		cout << "Констр student:" << this << " group:" << group << endl;
+	}
+
+	student(string group, string name, int height) :human(name, height)
+	{
+		this->group = group;
+		name = name;
+		height = height;
+		cout << "Констр student:" << this << " group:" << group << " name:" << name << " height:" << height << endl;
+	}
+
+	~student() 
+	{
+		cout << "Дестр. student:" << this << " group:" << group << endl;
+	}
+
+private:
+	string group;
+};
+
+
+
+int main()
+{
+	setlocale(LC_ALL, "RUS");
+
+	student test1("group 1");
+	cout << endl;
+	cout << endl;
+
+	student test("group 2", "Nik", 123);
+	cout << endl;
+	cout << endl;
+
+
+	return 0;
+}

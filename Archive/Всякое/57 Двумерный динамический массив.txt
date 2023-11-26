@@ -1,0 +1,66 @@
+#include <iostream>
+using namespace std;
+
+
+void FillArray(int** const array, int const row, int const col)  // Принимает адресс массива и две переменные его длинны и ширины
+{                                                                // Const указывает на то что полученные переменные не будут 
+	for (int i = 0; i < row; i++)                                // изменятся внутри массива т.е. для функции они воспринимаются 
+	{                                                            // как константы
+		for (int j = 0; j < col; j++)
+		{
+			array[i][j] = rand() % 10;
+		}
+	}
+}
+
+void ShowArray(int** const array, int const row, int const col)
+{
+	for (int i = 0; i < row; i++)
+	{
+		for (int j = 0; j < col; j++)
+		{
+			cout << array[i][j] << " ";
+		}
+		cout << endl;
+	}
+}
+
+
+void main()
+{
+	setlocale(LC_ALL, "RUS");
+
+	// Инициализация переменных
+	int cols;
+	int rows;
+
+	// Ввод переменных
+	cout << "Число столбцов: " << endl;
+	cin >> cols;
+	cout << endl;
+	cout << "Число строк: " << endl;
+	cin >> rows;
+	cout << endl;
+
+	// Инициализация массива
+	int** arr = new int*[rows];        // Массив с массивамми
+	for (int i = 0; i < rows; i++)     // Наполнение массива с массивами массивами (щито бляттт??..)
+	{
+		arr[i] = new int[cols];     
+	}
+
+	FillArray(arr, rows, cols);
+	ShowArray(arr, rows, cols);
+	
+
+	// Очистка памяти
+	for (int i = 0; i < rows; i++)
+	{
+		delete [] arr[i];
+	}
+	delete[] arr;
+	arr = nullptr;
+}
+
+
+

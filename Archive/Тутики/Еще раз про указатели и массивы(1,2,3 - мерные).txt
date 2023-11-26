@@ -1,0 +1,213 @@
+#include <iostream>
+//#define DEBUG 
+using namespace std;
+
+
+void part1() 
+{
+	int* psize = new int;
+	cout << "Размер массива: ";
+	cin >> *psize;
+	cout << "Введено - *psize: " << *psize << "\tpsize: " << psize << endl;
+
+	int* parr = new int[*psize];
+	cout << "\nСоздан массив размером  - *psize: " << *psize << "\t по адресу: " << parr << endl;
+	cout << "Адреса элементов массива:" << endl;
+	for (int i = 0; i < *psize; i++)
+	{
+		cout << "Адреса элемента " << i << "\tмассива " << (parr + i) << endl;
+	}
+	cout << endl;
+
+	cout << "Инициализация элементов массива:" << endl;
+	for (int i = 0; i < *psize; i++)
+	{
+		parr[i] = i;
+		cout << "Адреса элемента " << i << "\tмассива " << (parr + i) << "\tсодержимое " << *(parr + i) << endl;
+	}
+	cout << endl;
+
+
+	delete psize;
+	cout << "Удалено - psize ..." << endl;
+	delete[]parr;
+	cout << "Удалено - parr  ..." << endl;
+	cout << endl;
+	cout << endl;
+}
+
+void part2()
+{
+	int* pcols = new int;
+	int* prows = new int;
+	cout << "Размер массива, число столбцов: ";
+	cin >> *pcols;
+	cout << "Размер массива, число строк: ";
+	cin >> *prows;
+	cout << "Введено - *pcols: " << *pcols << "\tpcols: " << pcols << endl;
+	cout << "Введено - *prows: " << *prows << "\tprows: " << prows << endl;
+
+
+
+	int** parr = new int* [*pcols];
+	cout << "\nСоздание массива адресов по адресу: " << &parr << " в ней находится значение адреса первой ячейки: " << parr << endl;
+	for (int i = 0; i < *pcols; i++)
+	{
+		parr[i] = new int[*prows];
+		cout << "Создание массива по адресу: " << &parr[i] << " в ней находится значение адреса первой ячейки: " << parr[i] << endl;
+	}
+	cout << "Создан массив размером  - *pcols: " << *pcols << " *prows " << *prows << "\t по адресу : " << parr << endl;
+
+
+
+	cout << "\nСписок адресов массива: " << parr << endl;
+	for (int i = 0; i < *pcols; i++)
+	{
+		cout << "Адрес колонки: " << &parr[i] << " в ней находится значение адреса первой ячейки: " << parr[i] << endl;
+		for (int j = 0; j < *prows; j++)
+		{
+			cout << "\t Адрес строки: " << &parr[i][j] << endl;
+		}
+		cout << endl;
+	}
+	cout << endl;
+
+
+
+	cout << "Инициализация массива значениями" << endl;
+	for (int i = 0; i < *pcols; i++)
+	{
+		cout << "Адрес колонки: " << &parr[i] << " в ней находится значение адреса первой ячейки: " << parr[i] << endl;
+		for (int j = 0; j < *prows; j++)
+		{
+			parr[i][j] = i + j;
+			cout << "\t Адрес строки: " << &parr[i][j] << "\tзначение: " << parr[i][j] << endl;
+		}
+		cout << endl;
+	}
+	cout << endl;
+
+
+
+	cout << "Очистка колонок массива (которые содержат адреса рядов)" << endl;
+	for (int i = 0; i < *pcols; i++)
+	{
+		cout << "Удаление массива (колонки) по адресу: " << &parr[i] << " в ней находится значение адреса первой ячейки: " << parr[i] << endl;
+		delete[] parr[i];
+	}
+	cout << "Удаление массива массивов по адресу: " << &parr << " в ней находится значение адреса первой ячейки: " << parr << endl;
+	delete[] parr;
+
+
+	cout << "Удаление prows по адресу: " << prows << " в ней находится значение *prows: " << *prows << endl;
+	delete prows;
+	cout << "Удаление pcols по адресу: " << pcols << " в ней находится значение *pcols: " << *pcols << endl;
+	delete pcols;
+}
+
+void part3()
+{
+	int* px = new int;
+	int* py = new int;
+	int* pz = new int;
+	cout << "Адрес px: " << px << "; введи *px: ";
+	cin >> *px;
+	cout << "Адрес py: " << py << "; введи *py: ";
+	cin >> *py;
+	cout << "Адрес pz: " << pz << "; введи *pz: ";
+	cin >> *pz;
+	cout << "Введено: *px: " << *px << "  *py: " << *py << "  *pz: " << *pz << endl;
+	cout << endl;
+
+
+#ifdef DEBUG
+	cout << "Формирование трехмерного массива:" << endl;
+#endif 
+	int*** parr = new int** [*px];
+#ifdef DEBUG
+	cout << "\nСоздание массива массива адресов по адресу: " << &parr << " в ней находится значение адреса первой ячейки: " << parr << endl;
+#endif 
+	for (int i = 0; i < *px; i++)
+	{
+		parr[i] = new int* [*py];
+#ifdef DEBUG
+		cout << "\tСоздание массива адресов по адресу: " << &parr[i] << " в ней находится значение адреса первой ячейки: " << parr[i] << endl;
+#endif 
+		for (int j = 0; j < *py; j++)
+		{
+			parr[i][j] = new int[*pz];
+#ifdef DEBUG
+			cout << "\t\tСоздание массива по адресу: " << &parr[i][j] << " в ней находится значение адреса первой ячейки: " << parr[i][j] << endl;
+#endif 
+		}
+	}
+	cout << endl;
+
+
+#ifdef DEBUG
+	cout << "Инициализация трехмерного массива:" << endl;
+	cout << "В массиве массива адресов по адресу: " << &parr << " значение адреса первой ячейки: " << parr << endl;
+#endif 
+	for (int i = 0; i < *px; i++)
+	{
+#ifdef DEBUG
+		cout << "\tВ массиве адресов по адресу: " << &parr[i] << " в ней находится значение адреса первой ячейки: " << parr[i] << endl;
+#endif 
+		for (int j = 0; j < *py; j++)
+		{
+#ifdef DEBUG
+			cout << "\t\tВ массиве по адресу: " << &parr[i][j] << " в ней находится значение адреса первой ячейки: " << parr[i][j] << endl;
+#endif 
+			for (int k = 0; k < *pz; k++)
+			{
+				parr[i][j][k] = i + j + k;
+#ifdef DEBUG
+				cout << "\t\tПо адресу : " << &parr[i][j][k] << " инициализировано значение : " << parr[i][j][k] << endl;
+#endif 
+			}
+		}
+	}
+	cout << endl;
+
+
+
+	cout << "\t\tУдаление трехмерного массива:" << endl;
+	for (int i = 0; i < *px; i++)
+	{
+		for (int j = 0; j < *py; j++)
+		{
+#ifdef DEBUG
+			cout << "\t\tУдаление массива y по адресу: " << &parr[i][j] << " в ней находится значение адреса первой ячейки: " << parr[i][j] << endl;
+#endif
+			delete[] parr[i][j];
+		}
+#ifdef DEBUG
+		cout << "\tУдаление массива y по адресу: " << &parr[i] << " в ней находится значение адреса первой ячейки: " << parr[i] << endl;
+#endif 
+		delete[] parr[i];
+	}
+#ifdef DEBUG
+	cout << "Удаление массива массивов по адресу: " << &parr << " в ней находится значение адреса первой ячейки: " << parr << endl;
+#endif 
+	delete[] parr;
+
+	cout << "Удаление адреса pz по адресу: " << pz << "; в нем находится значение *pz: " << *pz << endl;
+	delete pz;
+	cout << "Удаление адреса py по адресу: " << py << "; в нем находится значение *py: " << *py << endl;
+	delete py;
+	cout << "Удаление адреса px по адресу: " << px << "; в нем находится значение *px: " << *px << endl;
+	delete px;
+
+}
+
+
+int main()
+{
+	setlocale(LC_ALL, "RUS");
+
+	part3();
+}
+
+
+
+

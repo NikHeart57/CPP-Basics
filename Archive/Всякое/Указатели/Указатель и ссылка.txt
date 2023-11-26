@@ -1,0 +1,42 @@
+#include <iostream>
+using namespace std;
+
+
+void function1(int a)   
+{
+	a = 1;
+}
+
+void function2(int &a)
+{
+	a = 2;
+}
+ 
+void function3(int *a)
+{
+	*a = 3;
+}
+
+void main()
+{ 
+	setlocale(LC_ALL, "RUS");
+
+	int value = 5;
+
+	cout << "Value: " << value << endl;
+
+	cout << "Function1: " << endl;
+	function1(value);
+	cout << "Value: " << value << endl;
+
+	cout << "Function2: " << endl;
+	function2(value);
+	cout << "Value: " << value << endl;
+
+	cout << "Function3: " << endl;
+	function3(&value);
+	cout << "Value: " << value << endl;
+}
+
+
+

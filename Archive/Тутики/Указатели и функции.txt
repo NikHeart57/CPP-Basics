@@ -1,0 +1,76 @@
+#include <iostream>
+using namespace std;
+
+void functionData(int input)
+{
+	input++;
+}
+
+void functionPointer(int &input)
+{
+	input++;
+}
+
+void functionAdress(int *input)
+{
+	(*input)++;
+}
+
+
+int main()
+{
+	setlocale(LC_ALL, "RUS");
+
+	int a = 5;      // 
+	int* pa = &a;   //
+	int& xa = a;    // Cсылка - псевдоним объекта. его другое имя. (фактически - псевдоним a)
+
+	cout << a << endl;
+	cout << pa << endl;
+	cout << xa << endl;
+	cout << endl;
+
+	functionData(a);
+	cout << "functionData(a)" << endl;
+	cout << a << endl;
+	cout << pa << endl;
+	cout << xa << endl;
+	cout << endl;
+
+
+	functionPointer(xa);
+	cout << "functionPointer(xa)" << endl;
+	cout << a << endl;
+	cout << pa << endl;
+	cout << xa << endl;
+	cout << endl;
+
+	functionAdress(pa);
+	cout << "functionAdress(pa)" << endl;
+	cout << a << endl;
+	cout << pa << endl;
+	cout << xa << endl;
+	cout << endl;
+
+
+		// функция работает с копией аргумента
+		//если внутри функции значение x изменится
+		//то это изменение не затронет оригинал - переменную,
+		//которая была передана в функцию при вызове
+		void function(int x);
+
+		// функция работает с оригиналом
+		//внутри функция может изменить значение ссылки x
+		//и тогда изменится значение оригинальной переменной,
+		//которая была переданы в функцию при вызове
+		void function(int& x);
+
+	https://www.cyberforum.ru/cpp-beginners/thread1711091.html
+
+	return 0;
+
+}
+
+
+
+

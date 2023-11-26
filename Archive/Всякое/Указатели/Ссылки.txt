@@ -1,0 +1,37 @@
+#include <iostream>
+using namespace std;
+
+
+
+void function(int &a, int& b, int& c)
+{
+	a = 10;
+	b *= 2;
+	c -= 100;
+}
+ 
+
+
+void main()
+{ 
+	setlocale(LC_ALL, "RUS");
+
+	int value1 = 0;
+	int value2 = 4;
+	int value3 = 34;
+
+	cout << value1 << endl;
+	cout << value2 << endl;
+	cout << value3 << endl;
+	cout << endl;
+
+	function(value1, value2, value3);
+
+	cout << value1 << endl;
+	cout << value2 << endl;
+	cout << value3 << endl;
+
+}
+
+
+

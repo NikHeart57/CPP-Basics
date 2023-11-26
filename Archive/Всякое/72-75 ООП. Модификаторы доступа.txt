@@ -1,0 +1,61 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+
+class Human
+{
+public:
+	int age;
+	int height;
+	string name;
+	string secondName;
+
+public:
+	void print()
+	{
+		cout << "Имя:\t\t" << name 
+			<< "\nФамилия:\t" << secondName 
+			<< "\nВозраст:\t" << age 
+			<< "\nРост:\t\t" << height << endl;
+	}
+};
+
+
+
+class Point
+{
+public:
+	int x;
+	int y;
+
+private:
+	int z = 10;
+
+public:
+	void print()
+	{
+		cout << "X: " << x << "\tY: " << y << "\tZ: " << z << endl;
+	}
+
+
+};
+
+
+void main()
+{
+	setlocale(LC_ALL, "RUS");
+
+	Point a;
+	a.x = 1;
+	a.y = 5;
+	a.print();
+
+
+	Human firstHuman;
+	firstHuman.name = "Nikolay";
+	firstHuman.secondName = "Kurkin";
+	firstHuman.height = 179;
+	firstHuman.age = 26;
+	firstHuman.print();
+}

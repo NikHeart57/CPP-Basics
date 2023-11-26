@@ -1,0 +1,36 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+
+
+
+void main()
+{
+	setlocale(LC_ALL, "RUS");
+
+	int a;
+	cout << "Введите a: ";
+	cin >> a;
+
+	a < 10 ? cout << "a < 10" << endl : a > 10 ? cout << "a > 10" << endl : cout << "a > 10" << endl;
+
+	
+	/*
+	if (a < 10)
+	{
+		cout << "a < 10" << endl
+	}
+	else
+	{
+		if(a > 10)
+		{
+			cout << "a > 10" << endl
+		}
+		else
+		{
+			cout << "a = 10" << endl
+		}
+	}
+	*/
+}

@@ -1,0 +1,147 @@
+#include <iostream>
+using namespace std;
+
+
+void FillArray(int* const array, int const size)          // Принимает адресс массива и переменую его длинны 
+{                                                         // Const указывает на то что полученные переменные не будут 
+	for (int i = 0; i < size; i++)                        // изменятся внутри массива т.е. для функции они воспринимаются 
+	{                                                     // как константы
+		array[i] = rand() % 10;
+	}
+}
+
+void ShowArray(int* const array, int const size)
+{
+	for (int i = 0; i < size; i++)
+	{
+		cout << array[i] << " ";
+	}
+	cout << endl;
+}
+
+void push_back(int *&array, int& size, int const value)   // array вызвана по адресу и по данным (хз что это дает)
+{                                                         // size входит в функцию по указателю, потому что мне нужно чтобы после выполнения функции size увеличится
+	int* tempArray = new int[size + 1];                   // Создание временного массива с размером на один больше
+
+	for (int i = 0; i < size; i++)                        // Дублирование входного массива во временнный
+	{
+		tempArray[i] = array[i];
+	}
+	tempArray[size] = value;                              // Добавление элемента в посчледнюю ячейку
+
+	delete[] array;                                       // Стирание элементов старого массива
+	array = tempArray;                                    // Присвоение новому массиву указателя от старого массива
+	size++;                                               // Увеличение переменной size
+}
+
+void push(int*& array, int& size, int const value, int const place) 
+{                                                         
+	int* tempArray = new int[size + 1];                   // Создание временного массива
+
+	for (int i = 0; i < place; i++)                       // Дублирование входного массива во временнный до достижения вставляемой ячейки
+	{
+		tempArray[i] = array[i];
+	}
+	tempArray[place] = value;                             // Добавление элемента в нужную ячейку
+	for (int i = (place); i < size; i++)                  // Дозаполнение временного массива
+	{
+		tempArray[i + 1] = array[i];
+	}
+
+	delete[] array;                                       // Стирание элементов старого массива
+	array = tempArray;                                    // Присвоение старого указателя новому массиву
+	size++;                                               // Увеличение переменной size
+}
+
+void push_begin(int *&array, int& size, int const value)
+{
+	int* tempArray = new int[size + 1];                   // Создание временного массива
+	          
+	tempArray[0] = value;                                 // Помещение нового значения в первую ячейку
+	for (int i = 0; i < size; i++)                        // Перемещение значений из старого масива во временный, но со сдвигом на один
+	{
+		tempArray[i + 1] = array[i];
+	}
+	
+	delete[] array; 	                                  // Стирание старого массива
+	array = tempArray;                                    // Присвоение старого указателя новому массиву
+	size++;                                               // Увеличение переменной size
+}
+
+void pop_back(int*& array, int& size)                     
+{                                                         
+	int* tempArray = new int[size - 1];                   // Создание временного массива, с размером на один меньше
+
+	for (int i = 0; i < (size - 1); i++)                  // Дублирование входного массива во временнный
+	{                                                     // Последний элемент не дублируется
+		tempArray[i] = array[i];
+	}
+
+	delete[] array;                                       // Стирание элементов старого массива
+	array = tempArray;                                    // Присвоение старого указателя новому массиву
+	size--;                                               // Увеличение переменной size
+}
+
+void pop(int*& array, int& size, int const place)
+{
+	int* tempArray = new int[size - 1];                   // Создание временного массива с размером на один меньше
+	
+	for (int i = 0; i < place; i++)                       // Дублирование входного массива во временнный до достижения вставляемой ячейки
+	{
+		tempArray[i] = array[i];
+	}
+
+	for (int i = (place); i < size; i++)                  // Когда значение достигнуто, дублирование продолжается но со сдвигом на один
+	{
+		tempArray[i] = array[i + 1];
+	}
+
+	delete[] array;                                       // Стирание элементов старого массива
+	array = tempArray;                                    // Присвоение старого указателя новому массиву
+	size--;                                               // Уменьшение размера массива
+}
+
+void pop_begin(int*& array, int& size)                    
+{                                                         // size входит в функцию по указателю, потому что после выполнения функции cols увеличится
+	int* tempArray = new int[size - 1];                   // Создание временного массива
+
+	for (int i = 0; i < (size - 1); i++)                  // Дублирование входного массива во временнный но со сдвигом
+	{
+		tempArray[i] = array[i + 1];
+	}
+
+	delete[] array;                                       // Стирание элементов старого массива
+	array = tempArray;                                    // Присвоение старого указателя новому массиву
+	size--;                                               // Увеличение переменной size
+}
+
+void main()
+{
+	setlocale(LC_ALL, "RUS");
+
+	int size = 5;
+	int* arr = new int[size];
+
+	FillArray(arr, size);
+	ShowArray(arr, size);
+
+	push_back(arr, size, 5);
+	ShowArray(arr, size);
+
+	push_begin(arr, size, 10);
+	ShowArray(arr, size);
+
+	push(arr, size, 56, 3);
+	ShowArray(arr, size);
+
+	pop(arr, size, 3);
+	ShowArray(arr, size);
+
+	pop_begin(arr, size);
+	ShowArray(arr, size);
+
+	pop_back(arr, size);
+	ShowArray(arr, size);
+
+	delete[] arr;
+}

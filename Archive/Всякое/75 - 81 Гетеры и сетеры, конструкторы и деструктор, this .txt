@@ -1,0 +1,72 @@
+#include <iostream>
+using namespace std;
+
+
+class Point
+{
+private:
+	int x;
+	int y;
+
+public:
+
+	Point()
+	{
+		this->x = 0;
+		this->y = 0;
+	}
+
+	Point(int x , int y)
+	{
+		this->x = x;
+		this->y = y;
+		cout << "Вызван конструктор Point(x,y) по адресу: " << this << " Значения x и y:" << this->x << " и " << this->y << endl;
+	}
+
+	~Point()
+	{
+		cout << "Вызван деструктор Point(x,y) по адресу: " << this << " Значения x и y:" << this->x << " и " << this->y << endl;
+	}
+
+
+
+	void SetX(int ValueX)             //  Сеттеры
+	{
+		x = ValueX;
+	}
+
+	void SetY(int ValueY)
+	{
+		y = ValueY;
+	}
+
+	int GetX()                        //  Геттеры
+	{
+		return x;
+	}
+
+	int GetY()
+	{
+		return y;
+	}
+
+	void Print()                      //  Метод класса
+	{
+		cout << "Вызван метод Print() по адресу: " << this << endl;
+		cout << "X: " << x << "\tY: " << y << endl << endl;
+	}
+};
+
+
+void main()
+{
+	setlocale(LC_ALL, "RUS");
+
+	Point a(5, 12);
+	Point b(6, 14);
+
+	a.Print();
+	b.Print();
+
+}
+

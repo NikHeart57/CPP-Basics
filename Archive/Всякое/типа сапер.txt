@@ -1,0 +1,82 @@
+#include <iostream>
+#include <ctime>
+using namespace std;
+
+
+void main()
+{ 
+	setlocale(LC_ALL, "RUS");
+	//srand(time(NULL));
+
+	const int ROW = 9; 
+	const int COL = 9;
+
+	char arr[ROW][COL];
+	int posx, posy;
+	bool refresh = 1;
+
+	// Инициализация массива
+	for (int i = 0; i < ROW; i++)
+	{
+		for (int j = 0; j < COL; j++)
+		{
+			if (rand() % 10 == 1)
+			{
+				arr[i][j] = '*';
+			}
+			else
+			{
+				arr[i][j] = '#';
+			}
+		}
+	}
+
+	arr[ROW / 2][COL / 2] = '!';
+	// Инициализирован
+
+	
+
+	// Вывод массива
+	while (refresh)
+	{
+		for (int i = -1; i < ROW; i++)
+		{
+			for (int j = -1; j < COL; j++)
+			{
+				if (i == -1 && j == -1)
+				{
+					cout << "@";
+				}
+				if (i != -1 && j != -1)
+				{
+					cout << arr[i][j];
+				}
+				if (i != -1 && j == -1)
+				{
+					cout << i;
+				}
+				if (i == -1 && j != -1)
+				{
+					cout << j;
+				}
+
+				if (j == COL - 1)
+				{
+					cout << endl;
+				}
+			}
+		}
+
+		// Запрос точки
+		cout << "Столбик: ";
+		cin >> posx;
+		cout << "Ряд:     ";
+		cin >> posy;
+		cout << endl;
+
+		arr[posy][posx] = '!';
+
+
+	}
+}
+

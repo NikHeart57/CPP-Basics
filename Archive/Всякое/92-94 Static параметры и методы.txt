@@ -1,0 +1,61 @@
+#include <iostream>
+using namespace std;
+
+class apple
+{
+public:
+	static int count;
+
+	apple(int weight, string colour)
+	{
+		count++;
+		this->id = count;
+
+		this->colour = colour;
+		this->weight = weight;
+	}
+
+	static int GetCount()
+	{
+		return count;        // Нельзя написать this->count
+	}
+	
+	int GetId()
+	{
+		return this->id;
+	}
+
+private:
+	int id;
+	int weight;
+	string colour;
+};
+int apple::count = 0;
+
+
+int main()
+{
+	setlocale(LC_ALL, "RUS");
+
+
+	cout << "  " << apple::GetCount() << " " << apple::GetId() << endl;   // Можно получить Count т.к. GetCount() статический метод
+	apple a(50, "red");
+	cout << "a " << a.GetCount() << " " << a.GetId() << endl;
+
+	apple b(50, "red");
+	cout << "b " << b.GetCount() << " " << b.GetId() << endl;
+
+	apple c(50, "red");
+	cout << "c " << c.GetCount() << " " << c.GetId() << endl;
+	cout << endl;
+
+
+	cout << "a " << a.GetCount() << " " << a.GetId() << endl;
+	cout << "b " << b.GetCount() << " " << b.GetId() << endl;
+	cout << "c " << c.GetCount() << " " << c.GetId() << endl;
+	cout << endl;
+
+
+	return 0;
+
+}

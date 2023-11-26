@@ -1,0 +1,203 @@
+#include <iostream>
+using namespace std;
+
+
+// Указатели
+void Part1() 
+{
+	// a = *pa = *&a
+	// pa = &a = &*pa
+
+	int a = 5;            // Значение
+	int* pa = &a;         // Взятие адреса - &; Взятие значения - *. 
+	// Адресные значения при инициализации обозначают звездочкой и буквой "p"
+	cout << "Значение              a: " << a << endl;
+	cout << "Адрес значения  pa = &a: " << pa << endl;
+	cout << endl;
+
+	cout << "Зная адрес значения  pa = &a = &*pa = &*&a: " << &*&a << endl;
+	cout << "Получаем его содержимое по адресу           " << endl;
+	cout << "Значение             a = *pa = *&a = &*&pa: " << *&a << endl;
+	cout << "Это называется разыменовние " << endl;
+	cout << endl;
+	cout << endl;
+}
+
+
+// Динамические значения
+void Part2()
+{
+	int* pb = new int;   // Инициализация нового адреса / указателя 
+	*pb = 10;            // Запись числа в новый адреса / указателя 
+
+	cout << "Новый адрес                                pb: " << pb << endl;
+	cout << "Новое значение в pb,                      *pb: " << *pb << endl;
+	cout << endl;
+
+	delete pb;           // Освобождение памяти
+	pb = NULL;
+
+	cout << "После освобождения памяти, адрес           pb: " << pb << endl;
+	cout << "После освобождения памяти, значение в pb, *pb: " << "Вызовет ошибку !" << endl;
+	cout << endl;
+	cout << endl;
+}
+
+
+// Динамический одномерный массив
+void Part3()
+{
+	int* psize = new int;              // Инициализация нового адреса / указателя 
+	cout << "Размер массива: ";
+	cin >> *psize;                     // Запись числа в новый адреса / указателя от пользователя
+	cout << endl;
+	cout << "Создана перемннная размера массива: " << *psize << endl;
+	cout << "по адресу:                          " << &*psize << endl;
+	cout << endl;
+
+	int* arr = new int[*psize] {};     // Инициализация нового массива / указателя
+	cout << "создан массив по адресу первого элемента: " << arr << endl;
+	cout << endl;
+
+	for (int i = 0; i < *psize; i++)   // Запись чисел в новый массив / указатель (массив это тоже самое что указатель)
+	{
+		arr[i] = i;
+	}
+
+	cout << "Вывод массива из " << *psize << " элементов:" << endl;
+	for (int i = 0; i < *psize; i++)   // Запись числа в новый массив / указатель (массив это тоже самое что указатель)
+	{
+		cout << "По адресу: " << (arr + i) << " находится " << i << " элемент массива равный: " << arr[i] << endl;
+	}
+	cout << endl;
+	cout << endl;
+	delete psize;
+	delete []arr;
+}
+
+
+// Динамический двумерный массив
+void Part4()
+{
+	int* prow = new int;               // Инициализация нового адреса / указателя 
+	int* pcol = new int;
+	cout << "Рядов в массиве: ";
+	cin >> *prow;                      // Запись числа в новый адреса / указателя от пользователя
+	cout << "Столбцов в массиве: ";
+	cin >> *pcol;                      // Запись числа в новый адреса / указателя от пользователя
+	cout << endl;
+	cout << "Созданы переменные размера массива, рядов: " << *prow << " столбцов: " << *pcol << endl;
+	cout << "по адресам: " << &*prow << " и " << &*pcol << endl;
+	cout << endl;
+
+
+	cout << "Создание нового массива рядов: " << *prow << endl;
+	int** arr = new int* [*prow];
+	cout << "Заполнение массива рядов, новыми массивами столбцов: " << *pcol << endl;
+	for (int i = 0; i < *prow; i++)
+	{
+		arr[i] = new int[*pcol];
+	}
+	cout << "Массив создан!" << endl;
+	cout << endl;
+
+
+	cout << "Заполнение массива данными" << endl;
+	for (int i = 0; i < *prow; i++)
+	{
+		for (int j = 0; j < *pcol; j++)
+		{
+			arr[i][j] = i + j;
+		}
+	}
+	cout << endl;
+
+	
+	cout << "Вывод массива" << endl;
+	for (int i = 0; i < *prow; i++)
+	{
+		for (int j = 0; j < *pcol; j++)
+		{
+			cout << arr[i][j] << " ";
+		}
+		cout << endl;
+	}
+	cout << endl;
+	
+
+	system("pause");
+
+	// Очистка памяти
+	for (int i = 0; i < *prow; i++)
+	{
+		delete[] arr[i];
+	}
+	delete[] arr;
+
+	delete pcol;
+	delete prow;
+}
+
+
+// Динамический трехмерный массив
+void Part5()
+{
+
+}
+
+
+// Функция void возвращающаяя значения
+void Part6()
+{
+
+}
+
+
+// Динамический массив char
+void Part7()
+{
+	char* ptemp = new char;          // Инициализация адреса под приёмщик данных
+	int* psize = new int;            // Инициализация адреса под счетчик размера массива
+	*psize = 1;
+	char* arr = new char [*psize] {'\0'};         // Инициализация массива
+
+	do
+	{
+		cin >> *ptemp;
+
+		char* temparr = new char [*psize + 1];
+		temparr[*psize] = '\0';
+		temparr[*psize - 1] = *ptemp;
+
+		for (int i = 0; i < (*psize) - 1; i++)
+		{
+			temparr[i] = arr[i];
+		}
+		delete [] arr;
+		(*psize)++;
+		arr = temparr;
+		temparr = NULL;
+
+		cout << arr << endl;
+	} while (1);
+
+	delete ptemp;
+	delete psize;
+	delete [] arr;
+}
+
+
+char part8(char &arr, int &size)
+{
+
+}
+
+
+void main()
+{
+	setlocale(LC_ALL, "RUS");
+
+	Part7();
+
+}
+

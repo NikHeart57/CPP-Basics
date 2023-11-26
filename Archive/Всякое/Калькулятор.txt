@@ -1,0 +1,85 @@
+#include <iostream>
+using namespace std;
+
+
+
+void main()
+{ 
+    setlocale(LC_ALL, "RUS");
+
+	float var1, var2;
+	char Deistvie, work = 'y';
+
+	while (work == 'y')
+	{
+		cout << "Введите первое число: ";
+		cin >> var1;
+
+		cout << "Введите второе число: ";
+		cin >> var2;
+
+		cout << "\nВыберите арифметическое действие:\n \tДля сложения введите: \t+\n \tДля вычитания введите: \t-\n \tДля умножения введите: \t*\n \tДля деления введите: \t/ \n";
+		cin >> Deistvie;
+
+		cout << endl;
+
+		switch (Deistvie)
+		{
+		    case '+':
+			{
+				cout << "Сумма чисел " << var1 << " и " << var2 << " равна: " << var1 + var2 << endl;
+			}
+			break;
+
+			case '-':
+			{
+				cout << "Разность чисел " << var1 << " и " << var2 << " равна: " << var1 - var2 << endl;
+			}
+			break;
+
+			case '*':
+			{
+				cout << "Произведение чисел " << var1 << " и " << var2 << " равно: " << var1 * var2 << endl;		
+			}
+			break;
+
+			case '/':
+			{
+				if (var2 != 0 && var1 >= var2)
+				{
+					cout << "Частное чисел " << var1 << " и " << var2 << " равно: \t\t\t" << var1 / var2 << endl;
+					cout << "При делении нацело " << var1 << " на " << var2 << " получается: \t" << (int)var1 / (int)var2 << endl;
+					cout << "Остаток при делении " << var1 << " на " << var2 << " равен: \t\t" << (int)var1 % (int)var2 << endl;
+				}
+				
+				else if (var2 != 0)
+				{
+					cout << "Частное чисел " << var1 << " и " << var2 << " равно: \t\t\t" << var1 / var2 << endl;
+					cout << "При делении нацело " << var1 << " на " << var2 << " получается: \t" << 0 << endl;
+					cout << "Остаток при делении " << var1 << " на " << var2 << " равен: " << var1 << endl;
+
+				}
+	
+				else
+				{
+					cout << "Делить на ноль нельзя!" << endl;
+				}
+			}
+			break;
+
+			default:
+			{
+				cout << "Несуществующее действие - \"" << Deistvie << "\" !";
+			}
+			break;
+		}
+
+		cout << "\nПовторить? \ny/n: ";
+		cin >> work;
+		cout << "\n";
+	}
+
+	cout << "\n\t Завершение программы \n\n";
+
+}
+

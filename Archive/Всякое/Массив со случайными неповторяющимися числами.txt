@@ -1,0 +1,69 @@
+#include <iostream>
+#include <ctime>
+using namespace std;
+
+
+void main()
+{ 
+	setlocale(LC_ALL, "RUS");
+	srand(time(NULL));
+
+	const int ARRAYSIZE = 10;
+	const int RANDMAX = 100;
+
+	int arr[ARRAYSIZE];
+	int MinNumber;
+	int MaxNumber;
+
+	for (int i = 0; i < ARRAYSIZE; i++)
+	{
+		arr[i] = rand() % RANDMAX;
+
+		for (int j = 0; j < i; j++)
+		{
+			while (arr[j] == arr[i])
+			{
+				arr[i] = rand() % RANDMAX;
+				j = 0;
+			}
+		}
+	}
+
+
+	// Вывод массива
+	for (int i = 0; i < ARRAYSIZE; i++)
+	{
+		cout << arr[i] << "  ";
+	}
+	cout << endl;
+
+
+
+	//Определение Наименьшего числа
+	MinNumber = arr[0];
+
+	for (int i = 0; i < ARRAYSIZE; i++)
+	{
+		if (arr[i] < MinNumber)
+		{
+			MinNumber = arr[i];
+		}
+	}
+	cout << "Самое маленькое число: " << MinNumber << endl;
+
+
+	//Определение Наибольшего числа
+	MaxNumber = arr[0];
+
+	for (int i = 0; i < ARRAYSIZE; i++)
+	{
+		if (arr[i] > MaxNumber)
+		{
+			MaxNumber = arr[i];
+		}
+	}
+	cout << "Самое большое число: " << MaxNumber << endl;
+
+	system("Pause");
+}
+

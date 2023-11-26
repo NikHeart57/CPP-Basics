@@ -1,0 +1,169 @@
+#include <iostream>
+using namespace std;
+
+
+class MyStaticIntClass
+{
+private:
+	int data;
+
+public:
+
+	MyStaticIntClass(int input)               // Конструктор
+	{
+		data = input;
+		cout << "Вызван конструктор объекта по адресу:                       " << this << endl
+			 << "Поле объекта инициализировано значением:                    " << data << endl
+			 << endl;
+	}
+	
+	MyStaticIntClass(const MyStaticIntClass&other)    // Конструктор копирования. Принимает константный MyClass и его параметы по ссылке &other
+	{
+		this->data = other.data;     // Перечисление того какие данные из копируемого объекта куда ставить (other.pdata копируется в this->pdata)
+		cout << "Вызван конструктор копирования объекта по адресу:           " << this << endl
+			 << "Поле объекта инициализировано значением:                    " << data << endl
+			 << endl;
+	}
+	
+	~MyStaticIntClass()                         // Деструктор
+	{
+		cout << "Поле объекта инициализировано значением:                    " << data << endl
+			 << "Вызван деструктор объекта по адресу:                        " << this << endl
+			 << endl;
+	}
+
+	void SetData(int input)
+	{
+		data = input;
+	}
+
+	void Print()
+	{
+		cout << "SetData: " << data << endl;
+	}
+};
+
+
+
+class MyDynamicArrayClass
+{
+private:
+
+	int size;
+	int *array;
+
+public:
+	
+	MyDynamicArrayClass(int size)                               // Конструктор
+	{
+		this->size = size;
+		this->array = new int [this->size];
+		cout << "Вызван конструктор класса по адресу: " << this << endl;
+		cout << "Инициализирована матрица по адресу:  " << this->array << endl;
+		cout << "Размер матрицы:                      " << this->size << endl;
+
+		for (int i = 0; i < this->size; i++)
+		{
+			array[i] = i;
+		}
+
+		cout << "Элементы матрицы: " << endl;
+		for (int i = 0; i < this->size; i++)
+		{
+			cout << array[i] << " ";
+		}
+		cout << endl;
+		cout << endl;
+	}
+
+	MyDynamicArrayClass(const MyDynamicArrayClass &other)              // Конструктор копирования. Принимает константный MyArrayClass и его параметы по ссылке &other
+	{
+		cout << "Вызван конструктор копирования по адресу: " << this << endl;
+
+		this->size = other.size;
+		this->array = new int[other.size];               // Создание нового массива размером как старый но по новому адресу
+		cout << "Инициализирована новая матрица по адресу: " << this->array << endl;
+		cout << "Размер матрицы:                           " << this->size << endl;
+
+		for (int i = 0; i < this->size; i++)             // Копирование данных в новый массив
+		{
+			this->array[i] = other.array[i];
+		}
+
+		cout << "Элементы матрицы: " << endl;
+		for (int i = 0; i < this->size; i++)
+		{
+			cout << this->array[i] << " ";
+		}
+		cout << endl;
+		cout << endl;
+	}
+
+	MyDynamicArrayClass & operator = (const MyDynamicArrayClass &other)    // Перегрузка оператора присваивания
+	{
+		cout << "Вызвался оператор =" << endl;
+
+		this->size = other.size;     // Получение размера массива
+
+		if (this->array != nullptr)  // Очистка памяти под массив
+		{
+			delete[] this->array;
+		}
+
+		this->array = new int[other.size];    // Создание нового массива на месте старого, нужного размера
+		
+		for (int i = 0; i < other.size; i++)  // Копирование в новый массив
+		{
+			array[i] = other.array[i];
+		}
+
+		cout << "Скопировано из массива: " << other.array << endl;
+		for (int i = 0; i < other.size; i++)
+		{
+			cout << other.array[i] << " ";
+		} 
+		cout << endl;
+		cout << "В новый массив:         " << array << endl;
+		cout << endl;
+		cout << endl;
+
+		return *this;
+	}
+
+	~MyDynamicArrayClass()                                      // Деструктор
+	{
+		cout << "Вызван деструктор класса по адресу:  " << this << endl;
+		cout << "Матрица по адресу:                   " << array << endl;
+		cout << "Размер матрицы:                      " << size << endl;
+		cout << "Удаление адреса матрицы...           " << endl;
+		delete[] array;
+
+		cout << "Память очищена" << endl;
+		cout << endl;
+	}
+};
+
+
+
+int main()
+{
+	setlocale(LC_ALL, "RUS");
+
+	int a = 12;
+	int b = 28;
+	a = b;             // a станет равно b, т.е. a = 28
+
+	MyDynamicArrayClass ArrayA(12);
+	MyDynamicArrayClass ArrayB(28);
+	MyDynamicArrayClass ArrayC(31);
+
+	ArrayA = ArrayB;   // указатель ArrayA станет ссылатся на указатель ArrayB и случится утечка памяти, 
+	                   // невозможно будет удалить ArrayA т.к. не существует больше его адреса
+			  		   // нужна перегрузка оператора присваивания =
+
+	ArrayA = ArrayB = ArrayC;
+
+	ArrayC = ArrayB = ArrayA;
+}
+
+

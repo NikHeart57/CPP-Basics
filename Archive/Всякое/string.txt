@@ -1,0 +1,113 @@
+#include <iostream>
+using namespace std;
+
+class MyString
+{
+public:
+
+	MyString()                                 // Конструктор
+	{
+		this->str = nullptr;
+		this->size = NULL;
+	}
+
+	MyString(const char *str)                  // Конструктор
+	{		
+		this->size = (int)strlen(str);
+		this->str = new char[size + 1];
+		this->str[size] = '\0';
+
+		for (int i = 0; i < size; i++)
+		{
+			this->str[i] = str[i];
+		}
+	}
+
+	~MyString()                                // Деструктор
+	{
+		delete[] str;
+	}
+	
+	MyString(const MyString& other)           // Конструктор копирования
+	{
+		this->size = other.size;
+		this->str = new char[this->size + 1];
+		this->str[this->size] = '\0';
+
+		for (int i = 0; i < this->size; i++)
+		{
+			this->str[i] = other.str[i];
+		}
+	}
+
+	void operator = (const MyString& other)
+	{
+		delete this->str;                        // Пересоздание массива
+		this->size = other.size;
+		this->str = new char[this->size + 1];
+		this->str[this->size] = '\0';
+
+		for (int i = 0; i < this->size; i++)     // Копирование в массив
+		{
+			this->str[i] = other.str[i];
+		}
+	}
+
+	MyString operator + (const MyString& other)
+	{
+		int tempSize = this->size + other.size;
+		char *tempStr = new char[tempSize];
+		tempStr[tempSize] = '\0';
+
+		for (int i = 0; i < this->size; i++)
+		{
+			tempStr[i] = this->str[i];
+		}
+
+		for (int i = 0; i < other.size; i++)
+		{
+			tempStr[this->size + i] = other.str[i];
+		}
+
+		return tempStr;
+	}
+
+	friend
+	ostream& operator << (ostream& os, const MyString& mystring)    // Оператор вывода
+	{
+		for (int i = 0; i < mystring.size; i++)
+		{
+			os << mystring.str[i];
+		}
+		return os;
+	}
+
+
+
+	void print()
+	{
+		cout << str << endl;
+	}
+
+private:
+	int size;
+	char* str;
+};
+
+int main()
+{
+	setlocale(LC_ALL, "RUS");
+
+	MyString a = "Word";
+	MyString b = "Word";
+
+
+	cout << a << endl;
+	cout << b << endl;
+	
+	return 0;
+}
+
+
+
+

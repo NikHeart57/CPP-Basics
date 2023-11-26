@@ -1,0 +1,60 @@
+#include <iostream>
+using namespace std;
+
+
+void FillArray(int* const array, int const cols)               // Принимает адресс массива и две переменую его длинны 
+{                                                              // Const указывает на то что полученные переменные не будут 
+	for (int i = 0; i < cols; i++)                             // изменятся внутри массива т.е. для функции они воспринимаются 
+	{                                                          // как константы
+		array[i] = rand() % 10;
+	}
+}
+
+void ShowArray(int* const array, int const cols)
+{
+	for (int i = 0; i < cols; i++)
+	{
+		cout << array[i] << " ";
+	}
+	cout << endl;
+}
+
+
+void main()
+{
+	setlocale(LC_ALL, "RUS");
+
+	// Инициализация переменных
+	int size1 = 10;
+	int size2 = 20;
+
+	int* firstArray = new int[size1];
+	int* secondArray = new int[size2];
+	// Создание и показ исходных массивов
+	FillArray(firstArray, size1);
+	FillArray(secondArray, size2);
+	cout << firstArray << "  ";
+	ShowArray(firstArray, size1);
+	cout << secondArray << "  ";
+	ShowArray(secondArray, size2);
+
+	// Очистка первого массива, инициализация нового с размерами как у второго
+	delete[] firstArray;
+	firstArray = new int[size2];
+
+	for (int i = 0; i < size2; i++)
+	{
+		firstArray[i] = secondArray[i];
+	}
+
+	cout << firstArray << "  ";
+	ShowArray(firstArray, size2);
+	cout << secondArray << "  ";
+	ShowArray(secondArray, size2);
+
+	delete[] firstArray;
+	delete[] secondArray;
+}
+
+
+

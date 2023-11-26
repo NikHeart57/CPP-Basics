@@ -1,0 +1,160 @@
+#include <iostream>
+using namespace std;
+
+
+class MyStaticIntClass
+{
+private:
+	int data;
+
+public:
+
+	MyStaticIntClass(int input)               // Конструктор
+	{
+		data = input;
+		cout << "Вызван конструктор объекта по адресу:                       " << this << endl
+			 << "Поле объекта инициализировано значением:                    " << data << endl
+			 << endl;
+	}
+	
+	MyStaticIntClass(const MyStaticIntClass&other)    // Конструктор копирования. Принимает константный MyClass и его параметы по ссылке &other
+	{
+		this->data = other.data;     // Перечисление того какие данные из копируемого объекта куда ставить (other.pdata копируется в this->pdata)
+		cout << "Вызван конструктор копирования объекта по адресу:           " << this << endl
+			 << "Поле объекта инициализировано значением:                    " << data << endl
+			 << endl;
+	}
+	
+	~MyStaticIntClass()                         // Деструктор
+	{
+		cout << "Поле объекта инициализировано значением:                    " << data << endl
+			 << "Вызван деструктор объекта по адресу:                        " << this << endl
+			 << endl;
+	}
+
+	void SetData(int input)
+	{
+		data = input;
+	}
+
+	void Print()
+	{
+		cout << "SetData: " << data << endl;
+	}
+};
+
+
+
+class MyDynamicArrayClass
+{
+private:
+
+	int size;
+	int *array;
+
+public:
+	
+	MyDynamicArrayClass(int size)                               // Конструктор
+	{
+		this->size = size;
+		this->array = new int [this->size];
+		cout << "Вызван конструктор класса по адресу: " << this << endl;
+		cout << "Инициализирована матрица по адресу:  " << this->array << endl;
+		cout << "Размер матрицы:                      " << this->size << endl;
+
+		for (int i = 0; i < this->size; i++)
+		{
+			array[i] = i;
+		}
+
+		cout << "Элементы матрицы: " << endl;
+		for (int i = 0; i < this->size; i++)
+		{
+			cout << array[i] << " ";
+		}
+		cout << endl;
+		cout << endl;
+	}
+
+	MyDynamicArrayClass(const MyDynamicArrayClass& other)              // Конструктор копирования. Принимает константный MyArrayClass и его параметы по ссылке &other
+	{
+		cout << "Вызван конструктор копирования по адресу: " << this << endl;
+
+		this->size = other.size;
+		this->array = new int[other.size];               // Создание нового массива размером как старый но по новому адресу
+		cout << "Инициализирована новая матрица по адресу: " << this->array << endl;
+		cout << "Размер матрицы:                           " << this->size << endl;
+
+		for (int i = 0; i < this->size; i++)             // Копирование данных в новый массив
+		{
+			this->array[i] = other.array[i];
+		}
+
+		cout << "Элементы матрицы: " << endl;
+		for (int i = 0; i < this->size; i++)
+		{
+			cout << this->array[i] << " ";
+		}
+		cout << endl;
+		cout << endl;
+	}
+
+
+	~MyDynamicArrayClass()                                      // Деструктор
+	{
+		cout << "Вызван деструктор класса по адресу:  " << this << endl;
+		cout << "Матрица по адресу:                   " << array << endl;
+		cout << "Размер матрицы:                      " << size << endl;
+		cout << "Удаление адреса матрицы...           " << endl;
+		delete[] array;
+
+		cout << "Память очищена" << endl;
+		cout << endl;
+	}
+};
+
+
+
+int main()
+{
+	setlocale(LC_ALL, "RUS");
+
+	{
+		MyStaticIntClass point1(1);
+		MyStaticIntClass point2(point1);   // Без конструктора копирования будет происходить точное клонирование объекта. 
+		                                   // Клонируется все включая адреес, что вызовет проблемы при его деструкции.
+										   // Чтобы этого избежать, создают конструктор копирования
+		MyStaticIntClass point3(point2);
+		MyStaticIntClass point4(point3);
+		point1.SetData(1);
+		point2.SetData(2);
+		point3.SetData(3);
+		point4.SetData(4);
+		point1.Print();
+		point2.Print();
+		point3.Print();
+		point4.Print();
+		cout << endl;
+		cout << endl;
+	}
+
+	cout << "==============================================================================================" << endl;
+	cout << endl;
+
+	{
+		MyDynamicArrayClass Array1(10);
+		MyDynamicArrayClass Array2(Array1);  // Без конструктора копирования будет происходить точное клонирование объекта. 
+		                                     // Клонируется все включая адреес, что вызовет проблемы при его деструкции.
+									         // Чтобы этого избежать, создают конструктор копирования      
+
+		MyDynamicArrayClass Array3(20);
+		MyDynamicArrayClass Array4(Array3);
+		cout << endl;
+		cout << endl;
+	}
+
+	cout << "==============================================================================================" << endl;
+	cout << endl;
+}
+
+
